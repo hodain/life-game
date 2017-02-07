@@ -1,0 +1,18 @@
+
+.alive {
+    background-color: #999;
+}
+
+.death {
+    background-color: #ffA;
+}
+
+div div {
+    height: 20px;
+}
+
+div div div {
+    width: 20px;
+    outline: 1px solid;
+    float: left;
+}
