@@ -1,22 +1,26 @@
 <!doctype html>
 <html ng-app="life-game">
 <head>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
 <script src="life-game.js"></script>
 <link rel="stylesheet" href="life-game.css">
+<link rel="stylesheet" href="css/font-awesome.min.css">
 </head>
 <body>
 	<div ng-controller="LifeGameController as lifeGameCtrl">
+	
+		<i class="fa fa-refresh" aria-hidden="true" ng-click="lifeGameCtrl.init()"></i>
+		<i class="fa fa-step-forward" aria-hidden="true" ng-click="lifeGameCtrl.next()"></i>
+		<i class="fa fa-play" aria-hidden="true" ng-click="lifeGameCtrl.play()"></i>
+		<i class="fa fa-stop" aria-hidden="true" ng-click="lifeGameCtrl.stop()"></i>
+		<i class="fa fa-plus" aria-hidden="true" ng-click="lifeGameCtrl.add()"></i>
+		
 		<div ng-repeat="row in lifeGameCtrl.cellGrid">
 			<div ng-repeat="cell in row track by $index" class="row">
 				<div ng-click="lifeGameCtrl.setState($parent.$index, $index)"
 					ng-class="{alive: cell, death: !cell}" class="cell"></div>
 			</div>
 		</div>
-		<button ng-click="lifeGameCtrl.init()">INIT</button>
-		<button ng-click="lifeGameCtrl.next()">NEXT</button>
-		<button ng-click="lifeGameCtrl.add()">ADD</button>
 	</div>
 </body>
 </html>

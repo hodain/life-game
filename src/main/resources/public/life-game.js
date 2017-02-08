@@ -1,5 +1,5 @@
 angular.module('life-game', [])
-	.controller('LifeGameController', function(CellGridService) {
+	.controller('LifeGameController',  function(CellGridService) {
 		var lifeGame = this;
 
 		lifeGame.cellGrid = [ [ false, false ][false, false] ];
@@ -32,6 +32,7 @@ angular.module('life-game', [])
 			CellGridService.add();
 			lifeGame.init();
 		};
+	
 	})
 	.factory("CellGridService", [ '$http', function($http) {
 		var getCellGrid = function() {
