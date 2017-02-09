@@ -7,12 +7,19 @@
     background-color: #ffA;
 }
 
-div div {
+div.row { 
     height: 20px;
+    display: table-cell;
 }
 
-div div div {
+div.cell {
     width: 20px;
     outline: 1px solid;
     float: left;
+    height: 20px;
+}
+
+
+.control-panel {
+	padding: 7px 7px;
 }

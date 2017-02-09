@@ -49,6 +49,19 @@ public class CellGrid {
 	}
 
 
+	public void removeRow() {
+		if (getSizeX() > 1) {
+			Cell[][] result = new Cell[getSizeX() - 1][getSizeY()];
+			for (int x = 0; x < cells.length - 1; x++) {
+				for (int y = 0; y < cells[x].length; y++) {
+					result[x][y] = cells[x][y];
+				}
+			}
+			this.cells = result;
+		}
+	}
+
+
 	public void addColumn() {
 		Cell[][] result = new Cell[getSizeX()][getSizeY() + 1];
 		for (int x = 0; x < cells.length; x++) {
@@ -60,6 +73,19 @@ public class CellGrid {
 		this.cells = result;
 		for (int x = 0; x < cells.length; x++) {
 			new Cell(x, getSizeY() - 1, false, this);
+		}
+	}
+
+
+	public void removeColumn() {
+		if (getSizeY() > 1) {
+			Cell[][] result = new Cell[getSizeX()][getSizeY() - 1];
+			for (int x = 0; x < cells.length; x++) {
+				for (int y = 0; y < cells[x].length - 1; y++) {
+					result[x][y] = cells[x][y];
+				}
+			}
+			this.cells = result;
 		}
 	}
 
@@ -219,5 +245,15 @@ public class CellGrid {
 			result += "|\n";
 		}
 		return result;
+	}
+
+
+	public void clear() {
+		boolean[][] result = new boolean[cells.length][cells[0].length];
+		for (int x = 0; x < cells.length; x++) {
+			for (int y = 0; y < cells[x].length; y++) {
+				cells[x][y].setLife(false);
+			}
+		}
 	}
 }

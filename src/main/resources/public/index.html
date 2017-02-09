@@ -1,26 +1,37 @@
 <!doctype html>
+
 <html ng-app="life-game">
-<head>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
-<script src="life-game.js"></script>
-<link rel="stylesheet" href="life-game.css">
-<link rel="stylesheet" href="css/font-awesome.min.css">
-</head>
-<body>
-	<div ng-controller="LifeGameController as lifeGameCtrl">
-	
-		<i class="fa fa-refresh" aria-hidden="true" ng-click="lifeGameCtrl.init()"></i>
-		<i class="fa fa-step-forward" aria-hidden="true" ng-click="lifeGameCtrl.next()"></i>
-		<i class="fa fa-play" aria-hidden="true" ng-click="lifeGameCtrl.play()"></i>
-		<i class="fa fa-stop" aria-hidden="true" ng-click="lifeGameCtrl.stop()"></i>
-		<i class="fa fa-plus" aria-hidden="true" ng-click="lifeGameCtrl.add()"></i>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+		<script src="life-game.js"></script>
 		
-		<div ng-repeat="row in lifeGameCtrl.cellGrid">
-			<div ng-repeat="cell in row track by $index" class="row">
-				<div ng-click="lifeGameCtrl.setState($parent.$index, $index)"
-					ng-class="{alive: cell, death: !cell}" class="cell"></div>
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="life-game.css">
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+	</head>
+	
+	<body>
+		<h1>Life game</h1>
+	
+		<div ng-controller="LifeGameController as lifeGameCtrl" data-ng-init="lifeGameCtrl.init()" style="text-align: center;">
+		
+		    <div class="control-panel">
+				<button class="fa fa-eraser btn btn-default btn-lg" aria-hidden="true" ng-click="lifeGameCtrl.clear()" ng-disabled="running"></button>
+				<button class="fa fa-step-forward btn btn-default btn-lg" aria-hidden="true" ng-click="lifeGameCtrl.next()" ng-disabled="running"></button>
+				<button class="fa fa-play btn btn-default btn-lg" aria-hidden="true" ng-click="lifeGameCtrl.play()" ng-disabled="running"></button>
+				<button class="fa fa-stop btn btn-default btn-lg" aria-hidden="true" ng-click="lifeGameCtrl.stop()" ng-disabled="!running"></button>
+				<button class="fa fa-plus btn btn-default btn-lg" aria-hidden="true" ng-click="lifeGameCtrl.add()"></button>
+				<button class="fa fa-minus btn btn-default btn-lg" aria-hidden="true" ng-click="lifeGameCtrl.remove()"></button>
+			</div>
+			
+			<div style="display: inline-block">
+				<div ng-repeat="row in lifeGameCtrl.cellGrid">
+					<div ng-repeat="cell in row track by $index" class="row">
+						<div ng-click="lifeGameCtrl.setState($parent.$index, $index)"
+							ng-class="{alive: cell, death: !cell}" class="cell"></div>
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
-</body>
+	</body>
 </html>

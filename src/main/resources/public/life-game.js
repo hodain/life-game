@@ -1,8 +1,9 @@
 angular.module('life-game', [])
-	.controller('LifeGameController',  function(CellGridService) {
+	.controller('LifeGameController', function(CellGridService, $interval, $scope) {
 		var lifeGame = this;
+		var stop;
 
-		lifeGame.cellGrid = [ [ false, false ][false, false] ];
+		lifeGame.cellGrid;
 
 		lifeGame.setState = function(x, y) {
 			var state = !this.cellGrid[x][y];
@@ -11,27 +12,47 @@ angular.module('life-game', [])
 		};
 
 		lifeGame.init = function() {
-			var data = CellGridService.getCellGrid();
-			data.then(function(data) {
-				lifeGame.cellGrid = data;
-			});
+			getData(CellGridService.getCellGrid());
 		};
 
 		lifeGame.clear = function() {
-			lifeGame.cellGrid = [ [ false, false ][false, false] ];
+			getData(CellGridService.clear());
 		};
 
 		lifeGame.next = function() {
-			var data = CellGridService.next();
-			data.then(function(data) {
-				lifeGame.cellGrid = data;
-			});
+			getData(CellGridService.next());
 		};
 		
 		lifeGame.add = function() {
 			CellGridService.add();
 			lifeGame.init();
 		};
+
+		lifeGame.remove = function() {
+			CellGridService.remove();
+			lifeGame.init();
+		};
+		
+		lifeGame.play = function() {
+			stop = $interval(function(){lifeGame.next()}, 500);
+			$scope.running = true;
+		};
+		
+		lifeGame.stop = function() {
+			if (angular.isDefined(stop)){
+				$interval.cancel(stop);
+				stop = undefined;
+				$scope.running = false;
+			}
+		};
+		
+		function getData(data){
+			data.then(function(data) {
+				lifeGame.cellGrid = data;
+			});
+		}
+		
+
 	
 	})
 	.factory("CellGridService", [ '$http', function($http) {
@@ -42,6 +63,11 @@ angular.module('life-game', [])
 		};
 		var next = function() {
 			return $http.get('http://localhost:8080/next').then(function(response) {
+				return response.data;
+			});
+		};
+		var clear = function() {
+			return $http.get('http://localhost:8080/clear').then(function(response) {
 				return response.data;
 			});
 		};
@@ -56,11 +82,16 @@ angular.module('life-game', [])
 		var add = function() {
 			$http.post('http://localhost:8080/add');
 		};
+		var remove = function() {
+			$http.post('http://localhost:8080/remove');
+		};
 		
 		return {
 			getCellGrid : getCellGrid,
 			next : next,
 			setCell : setCell,
-			add : add
+			add : add,
+			remove: remove,
+			clear: clear
 		};
 	} ]);

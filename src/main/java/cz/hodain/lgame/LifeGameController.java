@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LifeGameController {
 
-	private boolean[][] matrix = {	{true, false, false, false, false, true},
-									{false, true, false, false, true, false},
-									{false, false, true, true, false, false},
-									{false, false, true, true, false, false},
-									{false, true, false, false, true, false},
-									{true, false, false, false, false, true}};
+	private boolean[][] matrix = {	{false, false, false, false, false, false},
+									{false, false, false, false, false, false},
+									{false, false, false, false, false, false},
+									{false, false, false, false, false, false},
+									{false, false, false, false, false, false},
+									{false, false, false, false, false, false}};
 
 	private CellGrid cellGrid = new CellGrid(matrix);
 
@@ -51,10 +51,29 @@ public class LifeGameController {
 	}
 
 
+	@RequestMapping(method = RequestMethod.POST, value = "/remove")
+	public void remove() {
+		LOG.info("REMOVE was called.");
+		cellGrid.removeRow();
+		cellGrid.removeColumn();
+		LOG.info(cellGrid.toString());
+	}
+
+
 	@RequestMapping("/next")
 	public boolean[][] getNext() {
 		LOG.info("NEXT was called.");
 		cellGrid.next();
+		boolean[][] result = cellGrid.getMatrix();
+		LOG.info(cellGrid.toString());
+		return result;
+	}
+
+
+	@RequestMapping("/clear")
+	public boolean[][] getClear() {
+		LOG.info("CLEAR was called.");
+		cellGrid.clear();
 		boolean[][] result = cellGrid.getMatrix();
 		LOG.info(cellGrid.toString());
 		return result;
